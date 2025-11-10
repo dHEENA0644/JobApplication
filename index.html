@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Application Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Login Page -->
+  <div class="page" id="loginPage">
+    <div class="auth-container">
+      <div class="auth-card">
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Login to track your job applications</p>
+        <form id="loginForm" onsubmit="event.preventDefault(); login();">
+          <div class="input-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" placeholder="Enter your email" required>
+          </div>
+          <div class="input-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Login</button>
+          <div class="auth-links">
+            <button type="button" class="btn-link" onclick="showSignup()">Create Account</button>
+            <button type="button" class="btn-link" onclick="forgotPassword()">Forgot Password?</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Signup Page -->
+  <div class="page" id="signupPage" style="display:none;">
+    <div class="auth-container">
+      <div class="auth-card">
+        <h2>Create Account</h2>
+        <p class="subtitle">Start tracking your job applications</p>
+        <form id="signupForm" onsubmit="event.preventDefault(); register();">
+          <div class="input-group">
+            <label for="signupEmail">Email</label>
+            <input type="email" id="signupEmail" placeholder="Enter your email" required>
+          </div>
+          <div class="input-group">
+            <label for="signupPassword">Password</label>
+            <input type="password" id="signupPassword" placeholder="Create a password (min 6 characters)" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Register</button>
+          <div class="auth-links">
+            <button type="button" class="btn-link" onclick="showLogin()">Back to Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard -->
+  <div class="page" id="mainMenu" style="display:none;">
+    <header class="header">
+      <div class="header-content">
+        <h1>Job Application Tracker</h1>
+        <div class="user-info">
+          <div class="user-avatar">
+            <span id="userInitial">U</span>
+          </div>
+          <div class="user-details">
+            <span class="user-email" id="userEmailDisplay">user@example.com</span>
+            <button class="btn-link btn-small" onclick="logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <!-- Stats Section -->
+      <section class="stats-section">
+        <div class="stat-card">
+          <div class="stat-icon stat-total">📊</div>
+          <div class="stat-info">
+            <h3 id="totalJobs">0</h3>
+            <p>Total Applications</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-applied">📝</div>
+          <div class="stat-info">
+            <h3 id="appliedCount">0</h3>
+            <p>Applied</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-interview">💼</div>
+          <div class="stat-info">
+            <h3 id="interviewCount">0</h3>
+            <p>Interview</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-offer">🎉</div>
+          <div class="stat-info">
+            <h3 id="offerCount">0</h3>
+            <p>Offers</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-rejected">❌</div>
+          <div class="stat-info">
+            <h3 id="rejectedCount">0</h3>
+            <p>Rejected</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Actions Section -->
+      <section class="actions-section">
+        <button class="btn btn-primary btn-large" onclick="showAddForm()">
+          <span>➕</span> Add New Application
+        </button>
+        <button class="btn btn-secondary" onclick="refreshApplications()">
+          <span>🔄</span> Refresh
+        </button>
+      </section>
+
+      <!-- Applications List -->
+      <section class="applications-section">
+        <h2>Your Applications</h2>
+        <div id="applicationsList" class="applications-grid">
+          <div class="empty-state" id="emptyState">
+            <p>No applications yet. Click "Add New Application" to get started!</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Add/Edit Application Modal -->
+  <div class="modal" id="applicationModal" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add New Application</h2>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <form id="applicationForm" onsubmit="event.preventDefault(); saveApplication();">
+        <div class="form-group">
+          <label for="jobPosition">Job Position *</label>
+          <input type="text" id="jobPosition" placeholder="e.g., Software Engineer" required>
+        </div>
+        <div class="form-group">
+          <label for="jobCompany">Company Name *</label>
+          <input type="text" id="jobCompany" placeholder="e.g., Google" required>
+        </div>
+        <div class="form-group">
+          <label for="jobDate">Applied Date *</label>
+          <input type="date" id="jobDate" required>
+        </div>
+        <div class="form-group">
+          <label for="jobStatus">Status *</label>
+          <select id="jobStatus" required>
+            <option value="Applied">Applied</option>
+            <option value="Interview">Interview</option>
+            <option value="Offer">Offer</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay" style="display:none;">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
