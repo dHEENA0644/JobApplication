@@ -1,4 +1,4 @@
-const API_URL = 'https://jobtracker-backend-gl26.onrender.com';
+const API_URL = '';
 let currentUser = localStorage.getItem('currentUser');
 let currentEditingJobId = null;
 let allJobs = [];
