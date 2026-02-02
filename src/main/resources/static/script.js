@@ -87,7 +87,7 @@ async function register() {
 
   showLoading(true);
   try {
-    const response = await fetch(`${API_URL}/register`, {
+    const response = await fetch(`${API_URL}/api/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
@@ -127,7 +127,7 @@ async function login() {
 
   showLoading(true);
   try {
-    const response = await fetch(`${API_URL}/login`, {
+    const response = await fetch(`${API_URL}/api/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
@@ -231,7 +231,7 @@ async function saveApplication() {
     let response;
     if (currentEditingJobId) {
       // Update existing job - send all fields
-      response = await fetch(`${API_URL}/updateStatus`, {
+      response = await fetch(`${API_URL}/api/updateStatus`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(job)
@@ -247,7 +247,7 @@ async function saveApplication() {
       }
     } else {
       // Add new job
-      response = await fetch(`${API_URL}/addJob`, {
+      response = await fetch(`${API_URL}/api/addJob`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(job)
@@ -275,7 +275,7 @@ async function loadApplications() {
 
   showLoading(true);
   try {
-    const response = await fetch(`${API_URL}/getJobs?email=${encodeURIComponent(currentUser)}`);
+    const response = await fetch(`${API_URL}/api/getJobs?email=${encodeURIComponent(currentUser)}`);
 
     if (!response.ok) {
       throw new Error('Failed to fetch applications');
@@ -368,7 +368,7 @@ async function deleteApplication(jobId) {
 
   showLoading(true);
   try {
-    const response = await fetch(`${API_URL}/deleteJob/${jobId}`, {
+    const response = await fetch(`${API_URL}/api/deleteJob/${jobId}`, {
       method: 'DELETE'
     });
 
